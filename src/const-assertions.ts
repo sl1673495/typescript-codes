@@ -38,10 +38,8 @@ const HTTPRequestMethod2 = {
   POST: 'POST',
   PUT: 'PUT',
   TRACE: 'TRACE',
+  // as const的用法 注意内部的属性全部变成了readonly的
 } as const;
-
-// Oops! HTTPRequestMethod.GET被推断成了string类型
-// 所以不能赋值给'GET'类型
 fetchJSON('https://example.com/', HTTPRequestMethod2.GET).then(data => {
   // ...
 });
