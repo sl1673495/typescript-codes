@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "name": "Current TS File",
+          "type": "node",
+          "request": "launch",
+          "program": "/Users/shanshihao/.nvm/versions/node/v10.15.3/bin/ts-node",
+          "args": [
+              "${relativeFile}"
+          ],
+          "cwd": "${workspaceRoot}",
+          "protocol": "inspector"
+      }
+  ]
+}

@@ -1,12 +1,13 @@
 {
   "compilerOptions": {
+    "sourceMap": false,
+    "outDir": "./dist",
     "target": "esnext",
     "module": "commonjs",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "react",
     "esModuleInterop": true,
-    "sourceMap": true,
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
@@ -17,5 +18,6 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "noImplicitThis": true
   }
 }
