@@ -71,3 +71,5 @@ console.log(user3.isActivated);
 // 4. Composing Multiple Mixins
 const SpecialUser = Activatable(Tagged(Timestamped(User)));
 const user = new SpecialUser("John Doe");
+
+export  {}

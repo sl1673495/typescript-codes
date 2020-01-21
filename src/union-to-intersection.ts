@@ -4,9 +4,8 @@ type MergeParameters<U> = (U extends any
   ? I
   : never
 
-
 // 应用在mixin上
-type Ctor<T> = {new (...args: any[]): T}
+type Ctor<T> = { new (...args: any[]): T }
 declare function mixin<T extends Ctor<any>[]>(
   ...traits: T
 ): Ctor<UnionToIntersection<InstanceType<T[number]>>>
