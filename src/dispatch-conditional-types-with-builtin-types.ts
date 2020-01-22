@@ -17,18 +17,12 @@ type Action =
 // 用类型查询查出Action中所有type的联合类型
 type ActionType = Action["type"]
 
-// 把传入的联合类型中"type"类型去除掉
-type ExcludeTypeKey<K> = K extends "type" ? never : K
-
 // 把类型中key为"type"去掉
-type ExcludeTypeField<A> = {
-  [K in ExcludeTypeKey<keyof A>]: A[K]
-}
+type ExcludeTypeField<A> = { [K in Exclude<keyof A, "type">]: A[K] }
 
 // 把参数对象中的type去掉
-type ExtractActionParameters<A, T> = A extends { type: T }
-  ? ExcludeTypeField<A> // 这里也可以用Omit<A, "type">
-  : never
+// Extract<A, { type: T }会挑选出能extend { type: T }这个结构的Action中的类型
+type ExtractActionParameters<A, T> = ExcludeTypeField<Extract<A, { type: T }>>
 
 type ExtractSimpleAction<A> = A extends any
   ? {} extends ExcludeTypeField<A>
@@ -51,14 +45,4 @@ function dispatch(arg: any, payload?: any) {}
 
 dispatch("SYNC")
 
-dispatch("INIT")
-
-dispatch("LOG_IN_SUCCESS", {
-  accessToken: "123",
-})
-
-dispatch("LOG_IN", {
-  emailAddress: "123",
-})
-
-export { dispatch }
+export {}
