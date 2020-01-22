@@ -25,16 +25,25 @@ type ExcludeTypeField<A> = {
   [K in ExcludeTypeKey<keyof A>]: A[K]
 }
 
+// 把参数对象中的type去掉
 type ExtractActionParameters<A, T> = A extends { type: T }
-  // 这里也可以用Omit<A, "type">
-  ? ExcludeTypeField<A>
+  ? ExcludeTypeField<A> // 这里也可以用Omit<A, "type">
   : never
 
-declare function dispatch<T extends ActionType>(
-  type: T,
-  args: ExtractActionParameters<Action, T>,
-): void
+type ExtractSimpleAction<A> = A extends any
+  ? {} extends ExcludeTypeField<A>
+    ? A
+    : never
+  : never
+
+type SimpleActionType = ExtractSimpleAction<Action>["type"]
+
+
+declare function dispatch(type: SimpleActionType): void
+declare function dispatch<T extends ActionType>(type: Exclude<ActionType, SimpleActionType>, args: ExtractActionParameters<Action, T>): void
+dispatch("SYNC")
 
 dispatch("LOG_IN", {
-  emailAddress: "123",
+  emailAddress: '123'
 })
+

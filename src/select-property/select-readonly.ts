@@ -11,5 +11,5 @@ type A = {
   b: number
 }
 
-
+// "a"
 type B = ReadonlyKeys<A>
