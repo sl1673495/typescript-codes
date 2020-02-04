@@ -1,3 +1,5 @@
+// https://artsy.github.io/blog/2018/11/21/conditional-types-in-typescript/
+
 type Action =
   | {
       type: "INIT"
