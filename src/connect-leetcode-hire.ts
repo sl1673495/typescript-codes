@@ -1,5 +1,6 @@
 /**
  * LeetCode 的一道 TypeScript 面试题
+ * https://github.com/LeetCode-OpenSource/hire/blob/master/typescript_zh.md
  * 前段时间，在 GitHub 上，发现一道来自 LeetCode TypeScript 的面试题，比较有意思，题目的大致意思是：
 
  * 假设有一个这样的类型（原题中给出的是类，这里简化为 interface）：
