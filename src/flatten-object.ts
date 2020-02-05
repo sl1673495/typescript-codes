@@ -33,3 +33,5 @@ const obj = {
 }
 
 type T = ComposedValues<typeof obj>
+
+export {}

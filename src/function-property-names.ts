@@ -15,3 +15,5 @@ type T40 = FunctionPropertyNames<Part>;  // "updatePart"
 type T41 = NonFunctionPropertyNames<Part>;  // "id" | "name" | "subparts"
 type T42 = FunctionProperties<Part>;  // { updatePart(newName: string): void }
 type T43 = NonFunctionProperties<Part>;  // { id: number, name: string, subparts: Part[] }
+
+export {}

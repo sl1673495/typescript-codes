@@ -46,7 +46,3 @@ function dispatch(arg: any, payload?: any) {}
 dispatch("SYNC")
 
 export {}
-
-type A<T> =T extends { foo: number } ? true: false
-
-type B = A< { foo: number, bar: string }>
