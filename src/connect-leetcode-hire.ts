@@ -6,13 +6,6 @@
  * 假设有一个这样的类型（原题中给出的是类，这里简化为 interface）：
  */
 
-interface Module {
-  count: number
-  message: string
-  asyncMethod<T, U>(input: Promise<T>): Promise<Action<U>>
-  syncMethod<T, U>(action: Action<T>): Action<U>
-}
-
 interface Action<T> {
   payload?: T
   type: string
@@ -26,8 +19,14 @@ interface Action<T> {
     syncMethod<T, U>(action: T): Action<U>;
   }
  */
+type Head<Tuple extends any[]> = Tuple extends [infer Result, ...any[]]
+  ? Result
+  : never
 
 type Func = (args: any) => any
+
+type FirstParam<T extends Func> = Head<Parameters<T>>
+
 type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends Function ? K : never
 }[keyof T]
@@ -41,37 +40,33 @@ type Connect<M> = {
 
 type Convert<M extends Func> = (arg: ConvertArg<M>) => ConvertReseult<M>
 
-type ConvertArg<M extends Func> = Parameters<M>[0] extends Promise<infer P>
+// 转换参数
+type ConvertArg<M extends Func> = FirstParam<M> extends Promise<infer P>
   ? P
-  : Parameters<M>[0] extends Action<infer A>
+  : FirstParam<M> extends Action<infer A>
   ? A
-  : Parameters<M>[0]
+  : FirstParam<M>
 
+// 转换结果
 type ConvertReseult<M extends Func> = ReturnType<M> extends Promise<infer P>
   ? P
   : ReturnType<M>
 
-type Test = Connect<typeof EffectModule>
-
-let m: Test
-
-m.setMessage(new Date())
-
 const EffectModule = {
   count: 1,
-  message: 'hello!',
+  message: "hello!",
 
   delay(input: Promise<number>) {
     return input.then(i => ({
       payload: `hello ${i}!`,
-      type: 'delay',
+      type: "delay",
     }))
   },
 
   setMessage(action: Action<Date>) {
     return {
       payload: action.payload!.getMilliseconds(),
-      type: 'set-message',
+      type: "set-message",
     }
   },
 }
@@ -82,8 +77,9 @@ const connect = <M>(model: M): Connect<M> => {
 
 const connected = connect(EffectModule)
 
+// 类型测试通过
 connected.count = 5
-connected.message = 'hello'
+connected.message = "hello"
 connected.setMessage(new Date()).type
 connected.delay(5).type
 
