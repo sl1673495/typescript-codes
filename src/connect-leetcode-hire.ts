@@ -19,18 +19,23 @@ interface Action<T> {
     syncMethod<T, U>(action: T): Action<U>;
   }
  */
+
+type Func = (args: any) => any
+
+// 通过infer操作符取出元组中的第一个参数类型
 type Head<Tuple extends any[]> = Tuple extends [infer Result, ...any[]]
   ? Result
   : never
 
-type Func = (args: any) => any
-
+// 挑选出第一个参数
 type FirstParam<T extends Func> = Head<Parameters<T>>
 
+// 挑选出所有Function类型的key
 type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends Function ? K : never
 }[keyof T]
 
+// Connect核心实现 参数和结果的拆包
 type Connect<M> = {
   [K in FunctionKeys<M>]: Convert<M[K]>
 } &
@@ -71,6 +76,7 @@ const EffectModule = {
   },
 }
 
+// 函数实现
 const connect = <M>(model: M): Connect<M> => {
   return model as any
 }
