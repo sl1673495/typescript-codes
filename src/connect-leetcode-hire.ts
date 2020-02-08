@@ -37,11 +37,11 @@ type FunctionKeys<T> = {
 
 // Connect核心实现 参数和结果的拆包
 type Connect<M> = {
+  // 对函数进行转换
   [K in FunctionKeys<M>]: Convert<M[K]>
 } &
-  {
-    [K in Exclude<keyof M, FunctionKeys<M>>]: M[K]
-  }
+  // 除了函数以外的保留
+  Omit<M, FunctionKeys<M>>
 
 type Convert<M extends Func> = (arg: ConvertArg<M>) => ConvertReseult<M>
 
@@ -90,3 +90,7 @@ connected.setMessage(new Date()).type
 connected.delay(5).type
 
 export {}
+
+type GetArrayMembers<T> = T extends Readonly<Array<infer V>> ? V : never
+const example = [1, 2, 3] as const
+type Members = GetArrayMembers<typeof example> // 1, 2, 3
