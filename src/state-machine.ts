@@ -1,39 +1,38 @@
 type InitStateKey = 'initialState'
 
-type StateMationDefinition<T extends string> = {
+type StateMationDefinition<T extends string, K extends string> = {
   initialState: T
-  transform: {
-    [K in T]: MachineOption<T>
-  }
+} & {
+  [Key in T]: MachineOption<T, K>
 }
 
-type MachineOption<T extends string> = {
+type MachineOption<T, K extends string> = {
   actions: {
     onEnter: () => any
     onExit: () => any
   }
   transitions: {
-    [K: string]: {
+    [Key in K]: {
       target: T
       action: () => any
     }
   }
 }
 
-function createMachine<T extends string>(
-  stateMachineDefinition: StateMationDefinition<T>,
+function createMachine<T extends string, K extends string>(
+  stateMachineDefinition: StateMationDefinition<T, K>,
 ) {
   const machine = {
     value: stateMachineDefinition.initialState,
     transition(currentState: T, event: string) {
-      const currentStateDefinition = stateMachineDefinition.transform[currentState]
+      const currentStateDefinition = stateMachineDefinition[currentState]
       const destinationTransition = currentStateDefinition.transitions[event]
       if (!destinationTransition) {
         return
       }
       const destinationState = destinationTransition.target
       const destinationStateDefinition =
-        stateMachineDefinition.transform[destinationState]
+        stateMachineDefinition[destinationState]
       destinationTransition.action()
       currentStateDefinition.actions.onExit()
       destinationStateDefinition.actions.onEnter()
@@ -44,42 +43,42 @@ function createMachine<T extends string>(
   return machine
 }
 
-const machine = createMachine({
+type Types = 'on' | 'off'
+type Transitions = 'switch'
+const machine = createMachine<Types, Transitions>({
   initialState: 'off',
-  transform: {
-    off: {
-      actions: {
-        onEnter() {
-          console.log('off: onEnter')
-        },
-        onExit() {
-          console.log('off: onExit')
-        },
+  off: {
+    actions: {
+      onEnter() {
+        console.log('off: onEnter')
       },
-      transitions: {
-        switch: {
-          target: 'on',
-          action() {
-            console.log('transition action for "switch" in "off" state')
-          },
+      onExit() {
+        console.log('off: onExit')
+      },
+    },
+    transitions: {
+      switch: {
+        target: 'on',
+        action() {
+          console.log('transition action for "switch" in "off" state')
         },
       },
     },
-    on: {
-      actions: {
-        onEnter() {
-          console.log('on: onEnter')
-        },
-        onExit() {
-          console.log('on: onExit')
-        },
+  },
+  on: {
+    actions: {
+      onEnter() {
+        console.log('on: onEnter')
       },
-      transitions: {
-        switch: {
-          target: 'off',
-          action() {
-            console.log('transition action for "switch" in "on" state')
-          },
+      onExit() {
+        console.log('on: onExit')
+      },
+    },
+    transitions: {
+      switch: {
+        target: 'off',
+        action() {
+          console.log('transition action for "switch" in "on" state')
         },
       },
     },
