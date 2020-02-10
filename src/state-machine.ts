@@ -9,13 +9,13 @@ type StateMationDefinition<T extends string> = {
 
 type MachineOption<T extends string> = {
   actions: {
-    onEnter?: () => any
-    onExit?: () => any
+    onEnter: () => any
+    onExit: () => any
   }
-  transitions?: {
-    switch?: {
+  transitions: {
+    [K: string]: {
       target: T
-      action?: () => any
+      action: () => any
     }
   }
 }
@@ -25,7 +25,7 @@ function createMachine<T extends string>(
 ) {
   const machine = {
     value: stateMachineDefinition.initialState,
-    transition(currentState, event) {
+    transition(currentState: T, event: string) {
       const currentStateDefinition = stateMachineDefinition.transform[currentState]
       const destinationTransition = currentStateDefinition.transitions[event]
       if (!destinationTransition) {
