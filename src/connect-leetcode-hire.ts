@@ -7,8 +7,8 @@
  */
 
 interface Action<T> {
-  payload?: T
-  type: string
+  payload?: T;
+  type: string;
 }
 
 /**
@@ -20,42 +20,42 @@ interface Action<T> {
   }
  */
 
-type Func = (args: any) => any
+type Func = (args: any) => any;
 
 // 通过infer操作符取出元组中的第一个参数类型
 type Head<Tuple extends any[]> = Tuple extends [infer Result, ...any[]]
   ? Result
-  : never
+  : never;
 
 // 挑选出第一个参数
-type FirstParam<T extends Func> = Head<Parameters<T>>
+type FirstParam<T extends Func> = Head<Parameters<T>>;
 
 // 挑选出所有Function类型的key
 type FunctionKeys<T> = {
-  [K in keyof T]: T[K] extends Function ? K : never
-}[keyof T]
+  [K in keyof T]: T[K] extends Function ? K : never;
+}[keyof T];
 
 // Connect核心实现 参数和结果的拆包
 type Connect<M> = {
   // 对函数进行转换
-  [K in FunctionKeys<M>]: Convert<M[K]>
+  [K in FunctionKeys<M>]: Convert<M[K]>;
 } &
   // 除了函数以外的保留
-  Omit<M, FunctionKeys<M>>
+  Omit<M, FunctionKeys<M>>;
 
-type Convert<M extends Func> = (arg: ConvertArg<M>) => ConvertReseult<M>
+type Convert<M extends Func> = (arg: ConvertArg<M>) => ConvertReseult<M>;
 
 // 转换参数
 type ConvertArg<M extends Func> = FirstParam<M> extends Promise<infer P>
   ? P
   : FirstParam<M> extends Action<infer A>
   ? A
-  : FirstParam<M>
+  : FirstParam<M>;
 
 // 转换结果
 type ConvertReseult<M extends Func> = ReturnType<M> extends Promise<infer P>
   ? P
-  : ReturnType<M>
+  : ReturnType<M>;
 
 const EffectModule = {
   count: 1,
@@ -64,33 +64,33 @@ const EffectModule = {
   delay(input: Promise<number>) {
     return input.then(i => ({
       payload: `hello ${i}!`,
-      type: "delay",
-    }))
+      type: "delay"
+    }));
   },
 
   setMessage(action: Action<Date>) {
     return {
       payload: action.payload!.getMilliseconds(),
-      type: "set-message",
-    }
-  },
-}
+      type: "set-message"
+    };
+  }
+};
 
 // 函数实现
 const connect = <M>(model: M): Connect<M> => {
-  return model as any
-}
+  return model as any;
+};
 
-const connected = connect(EffectModule)
+const connected = connect(EffectModule);
 
 // 类型测试通过
-connected.count = 5
-connected.message = "hello"
-connected.setMessage(new Date()).type
-connected.delay(5).type
+connected.count = 5;
+connected.message = "hello";
+connected.setMessage(new Date()).type;
+connected.delay(5).type;
 
-export {}
+export {};
 
-type GetArrayMembers<T> = T extends Readonly<Array<infer V>> ? V : never
-const example = [1, 2, 3] as const
-type Members = GetArrayMembers<typeof example> // 1, 2, 3
+type GetArrayMembers<T> = T extends Readonly<Array<infer V>> ? V : never;
+const example = [1, 2, 3] as const;
+type Members = GetArrayMembers<typeof example>; // 1, 2, 3

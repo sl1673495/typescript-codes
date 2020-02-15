@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "tsc": "rm -rf dist && tsc -p ./",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "npm run lint -- --fix"
   },
   "repository": {
     "url": "https://github.com/sl1673495/typescript-codes"
@@ -26,6 +28,13 @@
     "@babel/preset-env": "^7.7.6",
     "@babel/preset-react": "^7.7.4",
     "@babel/preset-typescript": "^7.7.4",
-    "@types/reflect-metadata": "^0.1.0"
+    "@types/reflect-metadata": "^0.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
+    "typescript": "^3.7.5"
   }
 }

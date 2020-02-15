@@ -1,93 +1,93 @@
-type InitStateKey = 'initialState'
+type InitStateKey = "initialState";
 
 type StateMationDefinition<T extends string, K extends string> = {
-  initialState: T
+  initialState: T;
 } & {
-  [Key in T]: MachineOption<T, K>
-}
+  [Key in T]: MachineOption<T, K>;
+};
 
 type MachineOption<T, K extends string> = {
   actions: {
-    onEnter: () => any
-    onExit: () => any
-  }
+    onEnter: () => any;
+    onExit: () => any;
+  };
   transitions: {
     [Key in K]: {
-      target: T
-      action: () => any
-    }
-  }
-}
+      target: T;
+      action: () => any;
+    };
+  };
+};
 
 function createMachine<T extends string, K extends string>(
-  stateMachineDefinition: StateMationDefinition<T, K>,
+  stateMachineDefinition: StateMationDefinition<T, K>
 ) {
   const machine = {
     value: stateMachineDefinition.initialState,
     transition(currentState: T, event: string) {
-      const currentStateDefinition = stateMachineDefinition[currentState]
-      const destinationTransition = currentStateDefinition.transitions[event]
+      const currentStateDefinition = stateMachineDefinition[currentState];
+      const destinationTransition = currentStateDefinition.transitions[event];
       if (!destinationTransition) {
-        return
+        return;
       }
-      const destinationState = destinationTransition.target
+      const destinationState = destinationTransition.target;
       const destinationStateDefinition =
-        stateMachineDefinition[destinationState]
-      destinationTransition.action()
-      currentStateDefinition.actions.onExit()
-      destinationStateDefinition.actions.onEnter()
-      machine.value = destinationState
-      return machine.value
-    },
-  }
-  return machine
+        stateMachineDefinition[destinationState];
+      destinationTransition.action();
+      currentStateDefinition.actions.onExit();
+      destinationStateDefinition.actions.onEnter();
+      machine.value = destinationState;
+      return machine.value;
+    }
+  };
+  return machine;
 }
 
-type Types = 'on' | 'off'
-type Transitions = 'switch'
+type Types = "on" | "off";
+type Transitions = "switch";
 const machine = createMachine<Types, Transitions>({
-  initialState: 'off',
+  initialState: "off",
   off: {
     actions: {
       onEnter() {
-        console.log('off: onEnter')
+        console.log("off: onEnter");
       },
       onExit() {
-        console.log('off: onExit')
-      },
+        console.log("off: onExit");
+      }
     },
     transitions: {
       switch: {
-        target: 'on',
+        target: "on",
         action() {
-          console.log('transition action for "switch" in "off" state')
-        },
-      },
-    },
+          console.log('transition action for "switch" in "off" state');
+        }
+      }
+    }
   },
   on: {
     actions: {
       onEnter() {
-        console.log('on: onEnter')
+        console.log("on: onEnter");
       },
       onExit() {
-        console.log('on: onExit')
-      },
+        console.log("on: onExit");
+      }
     },
     transitions: {
       switch: {
-        target: 'off',
+        target: "off",
         action() {
-          console.log('transition action for "switch" in "on" state')
-        },
-      },
-    },
-  },
-})
+          console.log('transition action for "switch" in "on" state');
+        }
+      }
+    }
+  }
+});
 
-let state = machine.value
-console.log(`current state: ${state}`)
-state = machine.transition(state, 'switch')
-console.log(`current state: ${state}`)
-state = machine.transition(state, 'switch')
-console.log(`current state: ${state}`)
+let state = machine.value;
+console.log(`current state: ${state}`);
+state = machine.transition(state, "switch");
+console.log(`current state: ${state}`);
+state = machine.transition(state, "switch");
+console.log(`current state: ${state}`);
