@@ -1,5 +1,4 @@
 // https://zhuanlan.zhihu.com/p/91144493
-
 // 挑选出非对象的字段
 type NonObjectPropKeys<T> = {
   [K in keyof T]: T[K] extends any[] ? K : T[K] extends object ? never : K

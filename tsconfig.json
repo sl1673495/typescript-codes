@@ -3,7 +3,7 @@
     "sourceMap": false,
     "outDir": "./dist",
     "target": "esnext",
-    "module": "commonjs",
+    "module": "None",
     "moduleResolution": "node",
     "importHelpers": true,
     "jsx": "react",
@@ -15,9 +15,12 @@
     "types": [
       "reflect-metadata"
     ],
+    "typeRoots": [
+      "./src/global.d.ts"
+    ],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "noImplicitThis": true
-  }
+    "noImplicitThis": true,
+  },
 }
