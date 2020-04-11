@@ -20,9 +20,10 @@ type ActionType = Action["type"];
 // 把类型中key为"type"去掉
 type ExcludeTypeField<A> = { [K in Exclude<keyof A, "type">]: A[K] };
 
+type ExtractActionParameters<A, T> = A extends { type: T } ? A : never
 // 把参数对象中的type去掉
 // Extract<A, { type: T }会挑选出能extend { type: T }这个结构的Action中的类型
-type ExtractActionParameters<A, T> = ExcludeTypeField<Extract<A, { type: T }>>;
+type ExtractActionParametersWithoutType<A, T> = ExcludeTypeField<ExtractActionParameters<A, T>>;
 
 type ExtractSimpleAction<A> = A extends any
   ? {} extends ExcludeTypeField<A>
@@ -38,11 +39,16 @@ function dispatch<T extends SimpleActionType>(type: T): void;
 // 复杂参数类型
 function dispatch<T extends ComplexActionType>(
   type: T,
-  args: ExtractActionParameters<Action, T>
+  args: ExtractActionParametersWithoutType<Action, T>
 ): void;
 // 实现
 function dispatch(arg: any, payload?: any) {}
 
 dispatch("SYNC");
 
-export {};
+dispatch('LOG_IN', {
+  emailAddress: 'ssh@qq.com'
+})
+
+
+export {}
