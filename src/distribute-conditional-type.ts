@@ -1,3 +1,5 @@
+// https://stackoverflow.com/questions/55382306/typescript-distributive-conditional-types
+
 /**
  * Distributive conditional types are automatically distributed over union types during instantiation.
  * For example, an instantiation of T extends U ? X : Y with the type argument A | B | C for T
