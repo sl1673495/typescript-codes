@@ -8,24 +8,24 @@ type Features<T, K extends keyof T> = {
   [P in FeatureKeys<T> & K]: T[P];
 };
 
-type RolePlayer<T, K extends FeatureKeys<T>> = Features<T, K>
+type RolePlayer<T, K extends FeatureKeys<T>> = Features<T, K>;
 
 class Order {
   public checkout: Feature<number, boolean>;
   public pay: Feature<string, boolean>;
   public hello(abc: string) {
-      return false;
+    return false;
   }
 }
 
-class CommonPurchase implements RolePlayer<Order, 'checkout' | 'pay'> {
+class CommonPurchase implements RolePlayer<Order, "checkout" | "pay"> {
   public checkout(arg: number) {
-      return false;
+    return false;
   }
   public pay(arg: string) {
-      return false;
+    return false;
   }
   public hello(abc: number) {
-      return true;
+    return true;
   }
 }

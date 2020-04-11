@@ -2,13 +2,13 @@ type MergeParameters<U> = (U extends any
 ? (k: U) => void
 : never) extends (k: infer I) => void
   ? I
-  : never
+  : never;
 
 // 应用在mixin上
-type Ctor<T> = { new (...args: any[]): T }
+type Ctor<T> = { new (...args: any[]): T };
 declare function mixin<T extends Ctor<any>[]>(
   ...traits: T
-): Ctor<UnionToIntersection<InstanceType<T[number]>>>
+): Ctor<UnionToIntersection<InstanceType<T[number]>>>;
 
 class Flyable {
   fly() {}
@@ -19,7 +19,7 @@ class Walkable {
 
 class Mixed extends mixin(Flyable, Walkable) {
   test() {
-    this.fly() // ok
-    this.walk() // ok
+    this.fly(); // ok
+    this.walk(); // ok
   }
 }

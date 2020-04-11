@@ -1,35 +1,37 @@
-import 'reflect-metadata';
+import "reflect-metadata";
 
 const isConstructor = (val: any): boolean => {
-  return !!val.caller
+  return !!val.caller;
 };
 
 const isFunction = (val: any): val is Function => {
-  return typeof val === 'function';
+  return typeof val === "function";
 };
 
 // Controller.js
-const METHOD_METADATA = 'method';
-const PATH_METADATA = 'path';
+const METHOD_METADATA = "method";
+const PATH_METADATA = "path";
 const Controller = (path: string): ClassDecorator => {
   return target => {
     Reflect.defineMetadata(PATH_METADATA, path, target);
   };
 };
-const createMappingDecorator = (method: string) => (path: string): MethodDecorator => {
+const createMappingDecorator = (method: string) => (
+  path: string
+): MethodDecorator => {
   return (target, key, descriptor) => {
     Reflect.defineMetadata(PATH_METADATA, path, descriptor.value);
     Reflect.defineMetadata(METHOD_METADATA, method, descriptor.value);
   };
 };
-const Get = createMappingDecorator('GET');
-const Post = createMappingDecorator('POST');
+const Get = createMappingDecorator("GET");
+const Post = createMappingDecorator("POST");
 
-function mapRoute(instance: Object) {
+function mapRoute(instance: Record<string, any>) {
   const prototype = Object.getPrototypeOf(instance);
   // 筛选出类的 methodName
   const methodsNames = Object.getOwnPropertyNames(prototype).filter(
-    item => !isConstructor(item) && isFunction(prototype[item]),
+    item => !isConstructor(item) && isFunction(prototype[item])
   );
   return methodsNames.map(methodName => {
     const fn = prototype[methodName];
@@ -40,20 +42,20 @@ function mapRoute(instance: Object) {
       route,
       method,
       fn,
-      methodName,
+      methodName
     };
   });
 }
 
 // app.js
-@Controller('/test')
+@Controller("/test")
 class SomeClass {
-  @Get('/a')
+  @Get("/a")
   someGetMethod() {
-    return 'hello world';
+    return "hello world";
   }
-  @Post('/b')
+  @Post("/b")
   somePostMethod() {}
 }
 
-console.log('mapRoutes', mapRoute(new SomeClass()));
+console.log("mapRoutes", mapRoute(new SomeClass()));

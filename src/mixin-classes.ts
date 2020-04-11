@@ -37,7 +37,6 @@ const user2 = new TaggedUser("John Doe");
 user2.name = "Jane Doe";
 user2.tag = "janedoe";
 
-
 // 3. Mixins with Methods
 
 function Activatable<TBase extends Constructor>(Base: TBase) {
@@ -72,4 +71,4 @@ console.log(user3.isActivated);
 const SpecialUser = Activatable(Tagged(Timestamped(User)));
 const user = new SpecialUser("John Doe");
 
-export  {}
+export {};

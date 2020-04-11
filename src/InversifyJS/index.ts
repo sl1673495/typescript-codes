@@ -3,5 +3,5 @@ import { Warrior } from "./interfaces";
 
 const ninja = myContainer.get<Warrior>(Warrior);
 
-console.log(ninja.fight())
-console.log(ninja.sneak())
+console.log(ninja.fight());
+console.log(ninja.sneak());

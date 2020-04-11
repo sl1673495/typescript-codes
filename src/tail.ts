@@ -4,21 +4,21 @@ type Tail<Tuple extends any[]> = ((...args: Tuple) => void) extends (
   ...args: infer T
 ) => void
   ? T
-  : never
+  : never;
 // ['1','2','3'] -> '1'
 type Head<Tuple extends any[]> = Tuple extends [infer Result, ...any[]]
   ? Result
-  : never
+  : never;
 // (['2','3'],'1') -> ['1','2','3']
 type Unshift<Tuple extends any[], Element> = ((
   a: Element,
   ...args: Tuple
 ) => void) extends (...args: infer T) => void
   ? T
-  : never
+  : never;
 
-type T1 = Tail<[1, 2, 3]>
+type T1 = Tail<[1, 2, 3]>;
 
-type T2 = Head<[1, 2, 3]>
+type T2 = Head<[1, 2, 3]>;
 
-type T3 = Unshift<['2', '3'], '1'>
+type T3 = Unshift<["2", "3"], "1">;

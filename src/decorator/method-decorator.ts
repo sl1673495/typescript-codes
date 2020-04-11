@@ -1,7 +1,7 @@
 class C {
   @logMethod
   foo(n: number) {
-    return n * 2
+    return n * 2;
   }
 }
 
@@ -20,17 +20,17 @@ function logMethod(target: any, key: string, value: any) {
   return {
     value(...args: any[]) {
       // 将 foo 参数列表转换为字符串
-      const a = args.map(a => JSON.stringify(a)).join()
+      const a = args.map(a => JSON.stringify(a)).join();
       // 调用 foo() 并获取其返回值
-      const result = value.value.apply(this, args)
+      const result = value.value.apply(this, args);
       // 将结果转换为字符串
-      const r = JSON.stringify(result)
+      const r = JSON.stringify(result);
       // 在控制台中显示函数调用详细信息
-      console.log(`Call: ${key}(${a}) => ${r}`)
+      console.log(`Call: ${key}(${a}) => ${r}`);
       // 返回调用 foo 的结果
-      return result
-    },
-  }
+      return result;
+    }
+  };
 }
 
-new C().foo(2) // Call: foo(2) => 4
+new C().foo(2); // Call: foo(2) => 4
