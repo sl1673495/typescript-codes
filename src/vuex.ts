@@ -38,3 +38,5 @@ store.commit({
   type: "add",
   payload: 5
 });
+
+export {};
