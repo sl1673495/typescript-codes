@@ -22,3 +22,5 @@ const store = create({
 
 // number
 const count = store.count;
+
+export { count };
