@@ -2,7 +2,7 @@ interface Option<G> {
   getters: G;
 }
 
-type GetterShape = { [key: string]: (...args: any[]) => any };
+type GetterShape = { [K in PropertyKey]: (...args: any[]) => any };
 
 type Store<G extends GetterShape> = {
   [K in keyof G]: ReturnType<G[K]>;
