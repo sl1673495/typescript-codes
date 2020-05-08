@@ -56,3 +56,5 @@ type PointMixin = Point & {
 
 // 别名继承别名 需要用联合类型
 type PointModel = Point & SetPoint;
+
+export {};
