@@ -8,7 +8,10 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-empty-function": 0,
-    "prefer-const": 0
+    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-namespace": 0,
+    "no-inner-declarations": 0,
+    "prefer-const": 0,
   },
   extends: [
     'eslint:recommended',
