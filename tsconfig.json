@@ -23,5 +23,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "noImplicitThis": true,
+    "strictFunctionTypes": true,
   },
 }
