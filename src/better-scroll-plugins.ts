@@ -27,7 +27,6 @@ class BS<P extends { name: string }> {
 new BS<Slide | Pullup>().plugins.slide.next();
 
 // 最终采用的方案：
-
 type BSOptions = {
   el: string;
 };
