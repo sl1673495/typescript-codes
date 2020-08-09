@@ -1,18 +1,14 @@
-type PluginSlide = {
-  next(): void;
-  prev(): void;
-};
-
-type PickPlugin<T> = {
-  [K in keyof T]: K extends "slide" ? PluginSlide : never;
-}[keyof T];
+class PluginSlide {
+  next() {}
+  prev() {}
+}
 
 class BScroll {
   scroll() {}
 
-  use<T>(options: T): this & PickPlugin<T> {
-    return {} as any;
+  use<T>(pluginInstance: T): this & T {
+    return Object.assign(this, pluginInstance);
   }
 }
 
-const basic = new BScroll();
+new BScroll().use(new PluginSlide()).next();
