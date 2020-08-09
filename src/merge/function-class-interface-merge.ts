@@ -58,3 +58,5 @@ namespace Color {
 }
 
 Color.mixColor("white");
+
+export {}
