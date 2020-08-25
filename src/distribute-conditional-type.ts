@@ -21,18 +21,18 @@
  */
 
 // ❌ 这不是分布式条件类型 因为 T 在 extends 后面
-type A<T> = string extends T ? "yes" : "no"
+type A<T> = string extends T ? "yes" : "no";
 
 // ❌ 这不是分布式条件类型 因为 T 不是 naked type 它被用 { x: T } 给包裹起来了
-type B<T> = { x: T } extends { x: number } ? "yes" : "no"
+type B<T> = { x: T } extends { x: number } ? "yes" : "no";
 
 // ✅ 这是分布式条件类型 因为 T “裸”的直接跟在 extends 前面
-type C<T> = T extends number ? "yes" : "no"
+type C<T> = T extends number ? "yes" : "no";
 
-type Union = 1 | "2"
+type Union = 1 | "2";
 
 // 'no'
-type TestB = B<Union>
+type TestB = B<Union>;
 
 // ✅ 一种比较hack的方式实现，虽然 T 在 extends 之前，但是仅仅是一句废话。
 // 因为任何东西 extends any 都是 true
@@ -42,7 +42,9 @@ type FixB<T> = T extends {}
   ? { x: T } extends { x: number }
     ? "yes"
     : "no"
-  : never
+  : never;
 
 // 'yes' | 'no'
-type TestFixB = FixB<Union>
+type TestFixB = FixB<Union>;
+
+export {}
